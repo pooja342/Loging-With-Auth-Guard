@@ -83,7 +83,16 @@
                     </div>
                     <!-- Grid row -->
                     <!--Table-->
+                       @if(Session::has('message'))
+                            <p class="alert alert-warning">{{ Session::get('message') }}</p>
+                        @endif
                     <table class="table table-striped">
+                    <div class="form-outline mb-4 d-flex gap-2">
+                        <form method ="get" action =" {{ url('Dash')}}">
+                        <input type="search" class="form-control w-50" name="SearchName" id="datatable-search-input" placeholder ="Here Search User Name" >
+                        <input type="submit" class="btn btn-success" value="search"/>
+                        </form>
+                    </div>
                     <!--Table head-->
                         <thead>
                             <tr>
