@@ -13,6 +13,9 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+        p {
+            color :red;
+        }
                 
     </style>
     <body>
@@ -20,22 +23,45 @@
             @if(Session::has('message'))
                 <p class="alert alert-warning">{{ Session::get('message') }}</p>
             @endif
-            <h4> Login Admin</h4>
-            <form method = "get" action ="{{url('AdminLogin')}}">
-                @csrf
+            <h4>  Updated Record {{ $data->name}} </h4>
+            <form method = "post" action ="{{url('RecordUpdated')}}" enctype="multipart/form-data">
+            @csrf
+            <!-- Name -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Name</label>
+                <input type="text" id="form2Example1" value="{{ $data->name}}" name="name" class="form-control" />
+                    @if ($errors->has('name'))
+                        <p>{{ $errors->first('name') }}</p>
+                    @endif
+            </div>
             <!-- Email input -->
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example1">Email address</label>
-                <input type="email" id="form2Example1" name="email" class="form-control" />
+                <input type="email" id="form2Example1" value="{{ $data->email}}" name="email" class="form-control" />
+                    @if ($errors->has('email'))
+                         <p>{{ $errors->first('email') }}</p>
+                    @endif
             </div>
+
             <!-- Password input -->
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example2">Password</label>
-                <input type="password" id="form2Example2" name="password" class="form-control" />
+                <input type="password" id="form2Example2"  name="password" class="form-control" />
+                    @if ($errors->has('email'))
+                        <p>{{ $errors->first('password') }}</p>
+                    @endif
+            </div>
+            <input type="text" value="{{ $data->id }}" name="UserID" class="form-control" />
+            <!-- User-Profile -->
+            <div class="form-outline mb-4">
+                <label class="form-label" >User Profile</label>
+                <input type="file"  name="file" class="form-control" />
+                    @if ($errors->has('file'))
+                        <p>{{ $errors->first('file') }}</p>
+                    @endif
             </div>
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-
             </form>
         </div>
     </body>

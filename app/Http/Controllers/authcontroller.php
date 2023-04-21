@@ -6,13 +6,16 @@ use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use DB;
 
 
 class authcontroller extends Controller
 {
     
     public function dashboard(){
-        return view('dashboard');
+        $users = DB::table('users')->select('id','name','email','image')->get();
+
+        return view('dashboard')->with('users', $users);
     }
 
     public function ShowLoginPage(){

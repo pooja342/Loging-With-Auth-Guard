@@ -22,5 +22,10 @@ Route::get('AdminLogin',[App\Http\Controllers\authcontroller::class,'adminlogin'
 Route::group(['middleware' => ['auth:admin']], function() {
     Route::get('Dash',[App\Http\Controllers\authcontroller::class,'dashboard'])->name('dashboard');
     Route::get('Adminlogout',[App\Http\Controllers\authcontroller::class,'Adminlogout']);
+    Route::get('AddUser',[App\Http\Controllers\UserController::class,'AddUser']);
+    Route::post('UserRegister',[App\Http\Controllers\UserController::class,'UserRegister']);
+    Route::get('delete/{id}',[App\Http\Controllers\UserController::class,'DeleteUserRecord']);
+    Route::get('update/{id}',[App\Http\Controllers\UserController::class,'ShowUpdateForm']);
+    Route::post('RecordUpdated',[App\Http\Controllers\UserController::class,'UpdateUserRecord']);
 
   });
