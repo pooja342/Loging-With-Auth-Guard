@@ -27,5 +27,6 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::get('delete/{id}',[App\Http\Controllers\UserController::class,'DeleteUserRecord']);
     Route::get('update/{id}',[App\Http\Controllers\UserController::class,'ShowUpdateForm']);
     Route::post('RecordUpdated',[App\Http\Controllers\UserController::class,'UpdateUserRecord']);
+    Route::get('changeStatus',[App\Http\Controllers\UserController::class,'changeStatus']);
 
   });

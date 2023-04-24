@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>DashBoard</title>
@@ -7,62 +8,46 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"  />
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        
     </head>
-    <style>
-        body {
-            background-image: url("red.avif");
-            background-image:no-repeat;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-       
-        .hm-gradient {
-            background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
-        }
-        .darken-grey-text {
-            color: #2E2E2E;
-        }
-        .input-group.md-form.form-sm.form-2 input {
-            border: 1px solid #bdbdbd;
-            border-top-left-radius: 0.25rem;
-            border-bottom-left-radius: 0.25rem;
-        }
-        .input-group.md-form.form-sm.form-2 input.purple-border {
-            border: 1px solid #9e9e9e;
-        }
-        .input-group.md-form.form-sm.form-2 input[type=text]:focus:not([readonly]).purple-border {
-            border: 1px solid #ba68c8;
-            box-shadow: none;
-        }
-        .form-2 .input-group-addon {
-            border: 1px solid #ba68c8;
-        }
-        .danger-text {
-            color: #ff3547; 
-        }  
-        .success-text {
-            color: #00C851; 
-        }
-        .table-bordered.red-border, .table-bordered.red-border th, .table-bordered.red-border td {
-            border: 1px solid #ff3547!important;
-        }        
-        .table.table-bordered th {
-            text-align: center;
-        }
-        table th {
-            text-align: center;
-        } 
-        table  {
-            text-align: center;
-        }
-        .clas {
-            margin:50px 0px 0px 1650px;
-        }
-    </style>
+    <script>
+         $(document).ready(function(){
+            $(".toggle-class").change(function(){
+
+                var status = $(this).prop('checked') == true ? 1 : 0; 
+                if(status == 1)
+                {
+                    $(this).closest("tr").find('.status').text("Active");
+                }
+                else
+                {
+                    $(this).closest("tr").find('.status').text("pending");
+                }
+               
+                var user_id = $(this).data('id'); 
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: './changeStatus',
+                    data: {'status': status, 'user_id': user_id},
+                        success: function(data){
+                            // data.success == "active" ? $(this).attr('value', 'true') : $(this).attr('value', 'false')
+                         console.log(data.success);
+                    }
+                });
+            });
+         });
+    </script>
     
     <body class="hm-gradient">
         <a href="Adminlogout" class="clas" class="btn btn-info btn-lg ">
@@ -99,8 +84,10 @@
                                 <th>User</th>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
+                                <th>Switch</th>
                             </tr>
                         </thead>
                     <!--Table head-->
@@ -113,8 +100,15 @@
                                     </th>
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->email }}</td>
+                                    <td class="status" >{{ $data->status }}</td>
                                     <td><a href="update/{{ $data->id }}"><i class='fas fa-pen' style='font-size:20px'></i></a></td>
-                                    <td><a href="delete/{{ $data->id }}"><i class="fa fa-trash-o" style="font-size:20px"></i></a></td>
+                                    <td><a href="delete/{{ $data->id }}">Delete</a></td>
+                                    <td>
+                                    <input data-id="{{$data->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle"  {{ $data->status ? 'checked' : '' }}>
+                                        <!-- <div class="form-check form-switch">
+                                            <input class="form-check-input status " data-id="{{$data->id}}" type="checkbox" checked>
+                                        </div> -->
+                                    </td>
                                 </tr>
                             @endforeach 
                         </tbody>

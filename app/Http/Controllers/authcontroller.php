@@ -15,7 +15,7 @@ class authcontroller extends Controller
     public function dashboard(Request $req){
         if($req->SearchName)
          {
-            $users = DB::table('users')->select('id','name','email','image')->where('name','LIKE','%'. $req->SearchName.'%')->get()->toArray();
+            $users = DB::table('users')->select('id','name','email','image', 'status')->where('name','LIKE','%'. $req->SearchName.'%')->get()->toArray();
                 if (empty($users)) 
                 {
                   return back()->with('message','UserName does not exist in the database');   
@@ -23,7 +23,7 @@ class authcontroller extends Controller
          }
          else
          {
-            $users = DB::table('users')->select('id','name','email','image')->get();
+            $users = DB::table('users')->select('id','name','email','image','status')->get();
          }
 
         return view('dashboard')->with('users', $users);

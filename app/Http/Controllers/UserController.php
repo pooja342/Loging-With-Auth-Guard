@@ -76,4 +76,11 @@ class UserController extends Controller
 
          return redirect()->route('dashboard');
     }
+    public function changeStatus(Request $request){
+          $data =$request->all();
+          $status = $data['status'] > 0 ? "Active" : "Pending";
+          DB::table("users")->where('id',$data['user_id'])->update(['status' => $status]);
+        //    return response()->json(['success'=>'Status change successfully.']);
+          return $status;
+    }
 }
