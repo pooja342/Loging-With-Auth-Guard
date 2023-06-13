@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\Client;
 use Auth;
 use DB;
 
@@ -92,5 +93,30 @@ class authcontroller extends Controller
         Auth::logout();
         
         return redirect()->route('login');
+    }
+
+    public function googlemap()
+    {
+        // echo "yess";
+        return view('search');
+    }
+
+    public function getresult(Request $request)
+    {
+        // echo "yess";
+        $location = $request->input('location');
+        
+        $client = new Client();
+        $response = $client->get('https://maps.googleapis.com/maps/api/place/textsearch/json', [
+            'query' => [
+                'query' => $location,
+                'key' => 'AIzaSyCXIPyXxfaxrHeB2cCqFsQ790RnwGF59uU',
+            ],
+        ]);
+
+        $results = json_decode($response->getBody()->getContents(), true)['results'];
+
+        return view('GoogleMap', compact('results'));
+        // echo"yesss";
     }
 }

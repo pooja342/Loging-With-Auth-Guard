@@ -14,10 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+// Route::post('/search', function () {
+//   $location = request('location');
+//   $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
+//       'address' => $location,
+//       'key' => 'AIzaSyCXIPyXxfaxrHeB2cCqFsQ790RnwGF59uU', // Replace with your Google Maps API key
+//   ]);
+
+//   $results = $response->json()['results'];
+
+//   return view('search', compact('results'));
+// })->name('search');
 
 Route::get('/',[App\Http\Controllers\authcontroller::class,'public']);
 Route::get('ShowLoginPage',[App\Http\Controllers\authcontroller::class,'ShowLoginPage'])->name('login');
 Route::get('AdminLogin',[App\Http\Controllers\authcontroller::class,'adminlogin']);
+Route::get('googlemap',[App\Http\Controllers\authcontroller::class,'googlemap']);
+Route::get('getresult',[App\Http\Controllers\authcontroller::class,'getresult']);
 
 Route::group(['middleware' => ['auth:admin']], function() {
     Route::get('Dash',[App\Http\Controllers\authcontroller::class,'dashboard'])->name('dashboard');
